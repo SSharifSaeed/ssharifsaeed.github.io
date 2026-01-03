@@ -364,6 +364,37 @@
   </div>
 
   <script>
+    const STORAGE_KEY = "ace_leaderboard_v1";
+
+    function saveState() {
+    const data = {
+        players: [...players.entries()], // [["Name", score], ...]
+        updatedAt: Date.now(),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+
+        const data = JSON.parse(raw);
+        if (!data?.players || !Array.isArray(data.players)) return false;
+
+        players.clear();
+        lastScores.clear();
+
+        for (const [name, score] of data.players) {
+        players.set(String(name), Number(score) || 0);
+        lastScores.set(String(name), Number(score) || 0);
+        }
+        return true;
+    } catch (e) {
+        console.warn("Could not load saved leaderboard:", e);
+        return false;
+    }
+    }
     // =============================
     // 1) DATA
     // =============================
