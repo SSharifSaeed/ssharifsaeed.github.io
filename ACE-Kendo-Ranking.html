@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACE Kendo Academy Leaderboard</title>
+
+  <style>
+    :root{
+      --bg:#050607;
+      --panel:#0d0f12;
+      --panel2:#111418;
+      --text:#ffffff;
+      --muted:#c9c9c9;
+      --accent:#e11d2e;
+      --accent2:#ff2a3c;
+      --line:rgba(255,255,255,0.10);
+      --line2:rgba(225,29,46,0.28);
+      --shadow: rgba(0,0,0,0.65);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: radial-gradient(1200px 700px at 30% 20%, rgba(225,29,46,0.10), rgba(0,0,0,0)),
+                  radial-gradient(900px 600px at 80% 35%, rgba(225,29,46,0.08), rgba(0,0,0,0)),
+                  linear-gradient(180deg, #000, var(--bg));
+    }
+
+    /* animated “energy” layer */
+    .energy{
+      position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      background:
+        radial-gradient(500px 320px at 20% 30%, rgba(255,42,60,0.18), rgba(0,0,0,0)),
+        radial-gradient(520px 340px at 75% 20%, rgba(225,29,46,0.12), rgba(0,0,0,0)),
+        radial-gradient(520px 360px at 70% 80%, rgba(255,42,60,0.10), rgba(0,0,0,0));
+      filter: blur(18px);
+      animation: drift 10s ease-in-out infinite alternate;
+      opacity:0.9;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(-2%, -1%, 0) scale(1.02) }
+      to  { transform: translate3d( 2%,  1%, 0) scale(1.06) }
+    }
+
+    /* faint moving grain (adds motion without being obvious) */
+    .grain{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:0.06;
+      animation: grainMove 2.2s steps(2) infinite;
+    }
+    @keyframes grainMove{
+      0%{ transform: translate(0,0) }
+      100%{ transform: translate(-2%, 2%) }
+    }
+
+    .wrap{ width:min(1100px, 92vw); padding:24px; position:relative; z-index:1; }
+
+    .card{
+      background: linear-gradient(180deg, rgba(17,20,24,0.90), rgba(10,12,15,0.88));
+      border: 1px solid var(--line2);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 18px 65px var(--shadow);
+      backdrop-filter: blur(10px);
+      transform: translateY(8px);
+      opacity:0;
+      animation: cardIn 700ms ease forwards;
+    }
+    @keyframes cardIn{
+      to { transform: translateY(0); opacity:1; }
+    }
+
+    /* header */
+    .header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding: 6px 4px 14px 4px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* subtle scanning shimmer */
+    .header::after{
+      content:"";
+      position:absolute;
+      top:-40%;
+      left:-30%;
+      width:45%;
+      height:180%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transform: rotate(18deg);
+      animation: sweep 4.5s ease-in-out infinite;
+      opacity:0.6;
+    }
+    @keyframes sweep{
+      0% { transform: translateX(-120%) rotate(18deg); opacity:0; }
+      18%{ opacity:0.55; }
+      45%{ opacity:0.55; }
+      70%{ opacity:0; }
+      100%{ transform: translateX(280%) rotate(18deg); opacity:0; }
+    }
+
+    .logo{
+      width:64px;height:64px;border-radius:999px;
+      border:2px solid rgba(225,29,46,0.55);
+      box-shadow: 0 0 22px rgba(225,29,46,0.25);
+      background: rgba(0,0,0,0.3);
+      object-fit: cover;
+      transform: scale(0.98);
+      animation: logoBreathe 2.8s ease-in-out infinite;
+    }
+    @keyframes logoBreathe{
+      0%,100%{ transform: scale(0.98); box-shadow: 0 0 18px rgba(225,29,46,0.18); }
+      50%     { transform: scale(1.01); box-shadow: 0 0 26px rgba(255,42,60,0.28); }
+    }
+
+    .titles{ flex:1; min-width:0; }
+    h1{
+      margin:0;
+      font-size: clamp(24px, 3vw, 40px);
+      letter-spacing:0.6px;
+      line-height:1.1;
+    }
+    .subrow{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* intro */
+    .intro{
+      display:none;
+      text-align:center;
+      padding: 54px 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .introLogo{
+      width:108px;height:108px;border-radius:999px;
+      border:2px solid rgba(225,29,46,0.55);
+      box-shadow: 0 0 35px rgba(255,42,60,0.22);
+      object-fit: cover;
+      margin-bottom: 14px;
+      transform: translateY(8px) scale(0.98);
+      opacity:0;
+    }
+    .intro.show .introLogo{
+      animation: popIn 520ms cubic-bezier(.2,.9,.2,1) forwards;
+    }
+    @keyframes popIn{
+      to { transform: translateY(0) scale(1); opacity:1; }
+    }
+    .intro h2{
+      margin:0 0 10px 0;
+      font-size: clamp(30px, 4vw, 54px);
+      letter-spacing:0.4px;
+      opacity:0;
+      transform: translateY(10px);
+    }
+    .intro.show h2{
+      animation: fadeUp 520ms ease 120ms forwards;
+    }
+    .intro p{
+      margin:0;
+      color:var(--muted);
+      font-size: clamp(14px, 1.6vw, 18px);
+      opacity:0;
+      transform: translateY(10px);
+    }
+    .intro.show p{
+      animation: fadeUp 520ms ease 220ms forwards;
+    }
+    @keyframes fadeUp{
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    /* “slash” line */
+    .slash{
+      position:absolute;
+      left:-20%;
+      top:50%;
+      width:140%;
+      height:3px;
+      background: linear-gradient(90deg, transparent, rgba(255,42,60,0.9), transparent);
+      transform: rotate(-10deg);
+      opacity:0;
+    }
+    .intro.show .slash{
+      animation: slash 700ms ease 80ms forwards;
+    }
+    @keyframes slash{
+      0% { transform: translateX(-20%) rotate(-10deg); opacity:0; }
+      20%{ opacity:0.85; }
+      100%{ transform: translateX(20%) rotate(-10deg); opacity:0; }
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top: 22px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(225,29,46,0.35);
+      background: rgba(0,0,0,0.35);
+      color: var(--muted);
+      font-size: 14px;
+      opacity:0;
+      transform: translateY(10px);
+    }
+    .intro.show .badge{
+      animation: fadeUp 520ms ease 320ms forwards;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: var(--accent2);
+      box-shadow: 0 0 18px rgba(255,42,60,0.75);
+      animation: blink 1.3s ease-in-out infinite;
+    }
+    @keyframes blink{
+      0%,100%{ transform: scale(0.85); opacity:0.7; }
+      50%{ transform: scale(1.15); opacity:1; }
+    }
+
+    /* leaderboard table */
+    table{
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.25);
+    }
+    thead th{
+      text-align:left;
+      font-size: 13px;
+      letter-spacing:0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 14px 14px;
+      background: linear-gradient(180deg, rgba(225,29,46,0.18), rgba(0,0,0,0.12));
+      border-bottom: 1px solid rgba(225,29,46,0.25);
+    }
+
+    tbody tr{
+      opacity:0;
+      transform: translateY(8px);
+      animation: rowIn 420ms ease forwards;
+    }
+    @keyframes rowIn{
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    tbody td{
+      padding: 14px 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: clamp(16px, 1.6vw, 20px);
+    }
+    tbody tr:nth-child(odd){
+      background: rgba(255,255,255,0.03);
+    }
+
+    .pos{
+      width: 110px;
+      color: var(--accent2);
+      font-weight: 900;
+      letter-spacing:0.2px;
+    }
+    .name{ font-weight: 650; }
+    .score{
+      width: 160px;
+      text-align:right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+    }
+
+    /* highlight top 3 slightly */
+    tbody tr.top3{
+      background: linear-gradient(90deg, rgba(255,42,60,0.12), rgba(255,255,255,0.02));
+    }
+
+    /* score pulse when updated */
+    .pulse{
+      animation: pulse 450ms ease;
+    }
+    @keyframes pulse{
+      0%{ transform: scale(1); }
+      45%{ transform: scale(1.08); text-shadow: 0 0 18px rgba(255,42,60,0.28); }
+      100%{ transform: scale(1); }
+    }
+
+    .hint{ margin-top: 12px; color: var(--muted); font-size: 13px; }
+
+    .show{display:block;}
+    .hide{display:none;}
+  </style>
+</head>
+
+<body>
+  <div class="energy"></div>
+  <div class="grain"></div>
+
+  <div class="wrap">
+    <div class="card">
+
+      <div class="header">
+        <img class="logo" src="acekendologo.png" alt="ACE Kendo Academy logo" />
+        <div class="titles">
+          <h1>ACE Kendo Academy Leaderboard</h1>
+          <div class="subrow">
+            <div>Rankings</div>
+            <div id="updatedText">Last updated: —</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro" id="intro">
+        <div class="slash"></div>
+        <img class="introLogo" src="acekendologo.png" alt="ACE Kendo Academy logo" />
+        <h2>ACE Kendo Academy</h2>
+        <p>Standings will appear shortly</p>
+        <div class="badge"><span class="dot"></span> Live standings</div>
+      </div>
+
+      <div class="board" id="board">
+        <table>
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Name</th>
+              <th style="text-align:right;">Score</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="hint">
+          Press <b>Space</b> to replay intro. Open DevTools (F12) → Console to call:
+          <code>addScore("Name", 1)</code> / <code>setScore("Name", 10)</code>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // =============================
+    // 1) DATA
+    // =============================
+    const players = new Map([
+      ["Sharif", 0],
+      ["Ali", 0],
+      ["Zack", 0],
+      ["Hana", 0],
+    ]);
+
+    // store last scores for pulse animation
+    const lastScores = new Map([...players.entries()]);
+
+    // =============================
+    // 2) MANUAL SCORE FUNCTIONS
+    // =============================
+    function setScore(name, score) {
+      players.set(name, Number(score) || 0);
+      render();
+    }
+
+    function addScore(name, delta) {
+      const cur = players.get(name) || 0;
+      players.set(name, cur + (Number(delta) || 0));
+      render();
+    }
+
+    function addPlayer(name, startingScore = 0) {
+    name = String(name).trim();
+    if (!name) return console.warn("Player name cannot be empty.");
+    if (players.has(name)) return console.warn(`Player "${name}" already exists.`);
+
+    players.set(name, Number(startingScore) || 0);
+    lastScores.set(name, Number(startingScore) || 0);
+    render();
+    }
+
+    function removePlayer(name) {
+    if (!players.has(name)) {
+        return console.warn(`Player "${name}" does not exist.`);
+    }
+    players.delete(name);
+    lastScores.delete(name);
+    render();
+    }
+
+    function renamePlayer(oldName, newName) {
+    if (!players.has(oldName)) {
+        return console.warn(`Player "${oldName}" does not exist.`);
+    }
+
+    newName = String(newName).trim();
+    if (!newName) return console.warn("New name cannot be empty.");
+    if (players.has(newName)) {
+        return console.warn(`Player "${newName}" already exists.`);
+    }
+
+    const score = players.get(oldName);
+    players.delete(oldName);
+    lastScores.delete(oldName);
+
+    players.set(newName, score);
+    lastScores.set(newName, score);
+    render();
+    }
+
+    function clearLeaderboard() {
+    players.clear();
+    lastScores.clear();
+    render();
+    }
+
+
+    function resetAllScores() {
+      for (const k of players.keys()) players.set(k, 0);
+      render();
+    }
+
+    window.setScore = setScore;
+    window.addScore = addScore;
+    window.resetAllScores = resetAllScores;
+
+    // =============================
+    // 3) RENDERING
+    // =============================
+    const rowsEl = document.getElementById("rows");
+    const updatedText = document.getElementById("updatedText");
+
+    function render() {
+      const sorted = [...players.entries()].sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1];
+        return a[0].localeCompare(b[0]);
+      });
+
+      rowsEl.innerHTML = "";
+
+      sorted.forEach(([name, score], idx) => {
+        const tr = document.createElement("tr");
+        // stagger the row entrance a bit
+        tr.style.animationDelay = `${idx * 60}ms`;
+
+        if (idx < 3) tr.classList.add("top3");
+
+        const pos = document.createElement("td");
+        pos.className = "pos";
+        pos.textContent = `#${idx + 1}`;
+
+        const nm = document.createElement("td");
+        nm.className = "name";
+        nm.textContent = name;
+
+        const sc = document.createElement("td");
+        sc.className = "score";
+        sc.textContent = score;
+
+        // pulse score if it changed since last render
+        const prev = lastScores.get(name);
+        if (prev !== undefined && prev !== score) {
+          sc.classList.add("pulse");
+        }
+        lastScores.set(name, score);
+
+        tr.appendChild(pos);
+        tr.appendChild(nm);
+        tr.appendChild(sc);
+        rowsEl.appendChild(tr);
+      });
+
+      updatedText.textContent = `Last updated: ${new Date().toLocaleString()}`;
+    }
+
+    // =============================
+    // 4) INTRO -> BOARD FLOW
+    // =============================
+    const introEl = document.getElementById("intro");
+    const boardEl = document.getElementById("board");
+
+    function showIntroThenBoard(introMs = 3000) {
+      introEl.classList.add("show");
+      boardEl.classList.add("hide");
+
+      // triggers intro animations
+      requestAnimationFrame(() => introEl.classList.add("show"));
+
+      setTimeout(() => {
+        introEl.classList.remove("show");
+        boardEl.classList.remove("hide");
+      }, introMs);
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        showIntroThenBoard(2500);
+      }
+    });
+
+    render();
+    showIntroThenBoard(3000);
+  </script>
+</body>
+</html>
