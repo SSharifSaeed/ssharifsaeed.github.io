@@ -3,20 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ACE Kendo Academy Leaderboard</title>
+  <title>ACE Kendo Academy Leaderboards</title>
 
   <style>
     :root{
       --bg:#050607;
-      --panel:#0d0f12;
-      --panel2:#111418;
       --text:#ffffff;
       --muted:#c9c9c9;
+
       --accent:#e11d2e;
       --accent2:#ff2a3c;
+
       --line:rgba(255,255,255,0.10);
-      --line2:rgba(225,29,46,0.28);
       --shadow: rgba(0,0,0,0.65);
+
+      /* Division accents */
+      --kids: #ffb020;
+      --teens:#7c3aed;
+      --adults:#22c55e;
+
+      /* Category accents */
+      --cat1:#facc15; /* Yellow-Purple */
+      --cat2:#3b82f6; /* Blue-Red */
+      --cat3:#ff2a3c; /* ACE */
+      --gold:#f7c948;
     }
 
     *{box-sizing:border-box}
@@ -29,85 +39,88 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      background: radial-gradient(1200px 700px at 30% 20%, rgba(225,29,46,0.10), rgba(0,0,0,0)),
-                  radial-gradient(900px 600px at 80% 35%, rgba(225,29,46,0.08), rgba(0,0,0,0)),
-                  linear-gradient(180deg, #000, var(--bg));
+      background:
+        radial-gradient(1200px 700px at 30% 20%, rgba(225,29,46,0.14), rgba(0,0,0,0)),
+        radial-gradient(900px 600px at 80% 35%, rgba(225,29,46,0.10), rgba(0,0,0,0)),
+        linear-gradient(180deg, #000, var(--bg));
     }
 
-    /* animated “energy” layer */
+    /* ========= MORE “HYPE” MOTION ========= */
+
+    /* Slow drifting glow */
     .energy{
-      position:fixed;
-      inset:-20%;
+      position:fixed; inset:-20%;
       pointer-events:none;
       background:
-        radial-gradient(500px 320px at 20% 30%, rgba(255,42,60,0.18), rgba(0,0,0,0)),
-        radial-gradient(520px 340px at 75% 20%, rgba(225,29,46,0.12), rgba(0,0,0,0)),
-        radial-gradient(520px 360px at 70% 80%, rgba(255,42,60,0.10), rgba(0,0,0,0));
+        radial-gradient(520px 340px at 18% 30%, rgba(255,42,60,0.18), rgba(0,0,0,0)),
+        radial-gradient(560px 360px at 78% 18%, rgba(225,29,46,0.12), rgba(0,0,0,0)),
+        radial-gradient(600px 380px at 72% 82%, rgba(255,42,60,0.10), rgba(0,0,0,0));
       filter: blur(18px);
-      animation: drift 10s ease-in-out infinite alternate;
-      opacity:0.9;
+      animation: drift 9s ease-in-out infinite alternate;
+      opacity:0.92;
     }
     @keyframes drift{
       from{ transform: translate3d(-2%, -1%, 0) scale(1.02) }
-      to  { transform: translate3d( 2%,  1%, 0) scale(1.06) }
+      to  { transform: translate3d( 2%,  1%, 0) scale(1.07) }
     }
 
-    /* faint moving grain (adds motion without being obvious) */
-    .grain{
+    /* Sparks layer (CSS-only “particles”) */
+    .sparks{
       position:fixed;
       inset:0;
       pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-      opacity:0.06;
-      animation: grainMove 2.2s steps(2) infinite;
+      opacity:0.45;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.35), transparent 60%),
+        radial-gradient(2px 2px at 30% 40%, rgba(255,42,60,0.55), transparent 60%),
+        radial-gradient(2px 2px at 55% 30%, rgba(255,255,255,0.28), transparent 60%),
+        radial-gradient(2px 2px at 70% 55%, rgba(255,42,60,0.45), transparent 60%),
+        radial-gradient(2px 2px at 85% 25%, rgba(255,255,255,0.25), transparent 60%),
+        radial-gradient(2px 2px at 20% 75%, rgba(255,42,60,0.40), transparent 60%),
+        radial-gradient(2px 2px at 90% 80%, rgba(255,255,255,0.22), transparent 60%);
+      animation: sparkMove 7s linear infinite;
+      filter: blur(0.2px);
     }
-    @keyframes grainMove{
-      0%{ transform: translate(0,0) }
-      100%{ transform: translate(-2%, 2%) }
+    @keyframes sparkMove{
+      0%{ transform: translateY(0px); }
+      100%{ transform: translateY(40px); }
     }
 
-    .wrap{ width:min(1100px, 92vw); padding:24px; position:relative; z-index:1; }
+    .wrap{ width:min(1280px, 94vw); padding:24px; position:relative; z-index:1; }
 
     .card{
-      background: linear-gradient(180deg, rgba(17,20,24,0.90), rgba(10,12,15,0.88));
-      border: 1px solid var(--line2);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 18px 65px var(--shadow);
-      backdrop-filter: blur(10px);
-      transform: translateY(8px);
-      opacity:0;
-      animation: cardIn 700ms ease forwards;
-    }
-    @keyframes cardIn{
-      to { transform: translateY(0); opacity:1; }
+    background: linear-gradient(180deg, rgba(17,20,24,0.92), rgba(10,12,15,0.88));
+    border: 1px solid rgba(225,29,46,0.30);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 18px 70px rgba(0,0,0,0.65);
+
+    /* IMPORTANT: always visible even if animations fail */
+    opacity: 1;
+    transform: none;
+
+    /* optional: keep animation for browsers that support it */
+    animation: cardIn 700ms ease;
+    position:relative;
+    overflow:hidden;
     }
 
-    /* header */
-    .header{
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding: 6px 4px 14px 4px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 14px;
-      position:relative;
-      overflow:hidden;
-    }
+    @keyframes cardIn{ to { transform: translateY(0); opacity:1; } }
 
-    /* subtle scanning shimmer */
-    .header::after{
+    /* subtle moving highlight on the whole card */
+    .card::after{
       content:"";
       position:absolute;
-      top:-40%;
-      left:-30%;
-      width:45%;
-      height:180%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      top:-60%;
+      left:-40%;
+      width:70%;
+      height:200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
       transform: rotate(18deg);
-      animation: sweep 4.5s ease-in-out infinite;
-      opacity:0.6;
+      animation: sweep 5.2s ease-in-out infinite;
+      opacity:0.55;
+      pointer-events:none;
     }
     @keyframes sweep{
       0% { transform: translateX(-120%) rotate(18deg); opacity:0; }
@@ -117,24 +130,34 @@
       100%{ transform: translateX(280%) rotate(18deg); opacity:0; }
     }
 
+    .header{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding: 6px 6px 12px 6px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 12px;
+      position:relative;
+      z-index:2;
+    }
+
     .logo{
-      width:64px;height:64px;border-radius:999px;
-      border:2px solid rgba(225,29,46,0.55);
-      box-shadow: 0 0 22px rgba(225,29,46,0.25);
+      width:58px;height:58px;border-radius:999px;
+      border:2px solid rgba(225,29,46,0.60);
+      box-shadow: 0 0 22px rgba(225,29,46,0.28);
       background: rgba(0,0,0,0.3);
       object-fit: cover;
-      transform: scale(0.98);
       animation: logoBreathe 2.8s ease-in-out infinite;
     }
     @keyframes logoBreathe{
       0%,100%{ transform: scale(0.98); box-shadow: 0 0 18px rgba(225,29,46,0.18); }
-      50%     { transform: scale(1.01); box-shadow: 0 0 26px rgba(255,42,60,0.28); }
+      50%     { transform: scale(1.01); box-shadow: 0 0 30px rgba(255,42,60,0.32); }
     }
 
     .titles{ flex:1; min-width:0; }
     h1{
       margin:0;
-      font-size: clamp(24px, 3vw, 40px);
+      font-size: clamp(20px, 2.5vw, 34px);
       letter-spacing:0.6px;
       line-height:1.1;
     }
@@ -148,412 +171,847 @@
       font-size:14px;
     }
 
-    /* intro */
-    .intro{
-      display:none;
-      text-align:center;
-      padding: 54px 18px;
+    /* SCREEN TITLE (big + obvious) */
+    .screenTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 12px 6px 10px 6px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.26);
       position:relative;
       overflow:hidden;
+      z-index:2;
     }
-    .introLogo{
-      width:108px;height:108px;border-radius:999px;
-      border:2px solid rgba(225,29,46,0.55);
-      box-shadow: 0 0 35px rgba(255,42,60,0.22);
-      object-fit: cover;
-      margin-bottom: 14px;
-      transform: translateY(8px) scale(0.98);
-      opacity:0;
-    }
-    .intro.show .introLogo{
-      animation: popIn 520ms cubic-bezier(.2,.9,.2,1) forwards;
-    }
-    @keyframes popIn{
-      to { transform: translateY(0) scale(1); opacity:1; }
-    }
-    .intro h2{
-      margin:0 0 10px 0;
-      font-size: clamp(30px, 4vw, 54px);
-      letter-spacing:0.4px;
-      opacity:0;
-      transform: translateY(10px);
-    }
-    .intro.show h2{
-      animation: fadeUp 520ms ease 120ms forwards;
-    }
-    .intro p{
-      margin:0;
-      color:var(--muted);
-      font-size: clamp(14px, 1.6vw, 18px);
-      opacity:0;
-      transform: translateY(10px);
-    }
-    .intro.show p{
-      animation: fadeUp 520ms ease 220ms forwards;
-    }
-    @keyframes fadeUp{
-      to { opacity:1; transform: translateY(0); }
-    }
-
-    /* “slash” line */
-    .slash{
+    .screenTitle::before{
+      content:"";
       position:absolute;
-      left:-20%;
-      top:50%;
-      width:140%;
-      height:3px;
-      background: linear-gradient(90deg, transparent, rgba(255,42,60,0.9), transparent);
-      transform: rotate(-10deg);
-      opacity:0;
+      inset:0;
+      opacity:0.18;
+      background: radial-gradient(700px 240px at 18% 20%, rgba(255,42,60,0.75), transparent);
+      pointer-events:none;
     }
-    .intro.show .slash{
-      animation: slash 700ms ease 80ms forwards;
-    }
-    @keyframes slash{
-      0% { transform: translateX(-20%) rotate(-10deg); opacity:0; }
-      20%{ opacity:0.85; }
-      100%{ transform: translateX(20%) rotate(-10deg); opacity:0; }
-    }
-
-    .badge{
-      display:inline-flex;
+    .screenLeft{
+      display:flex;
       align-items:center;
       gap:10px;
-      margin-top: 22px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(225,29,46,0.35);
-      background: rgba(0,0,0,0.35);
-      color: var(--muted);
-      font-size: 14px;
-      opacity:0;
-      transform: translateY(10px);
+      min-width:0;
     }
-    .intro.show .badge{
-      animation: fadeUp 520ms ease 320ms forwards;
+    .screenIcon{
+      width:36px;height:36px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.25);
+      flex:0 0 auto;
+      box-shadow: 0 0 22px rgba(255,42,60,0.12);
     }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background: var(--accent2);
-      box-shadow: 0 0 18px rgba(255,42,60,0.75);
-      animation: blink 1.3s ease-in-out infinite;
+    .screenName{
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: clamp(16px, 1.8vw, 22px);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-    @keyframes blink{
-      0%,100%{ transform: scale(0.85); opacity:0.7; }
-      50%{ transform: scale(1.15); opacity:1; }
+    .screenHint{
+      color:var(--muted);
+      font-size: 13px;
+      white-space:nowrap;
     }
 
-    /* leaderboard table */
+    /* countdown bar to next screen (adds “event” feel) */
+    .progressOuter{
+      height: 6px;
+      border-radius: 999px;
+      margin: 0 6px 14px 6px;
+      background: rgba(255,255,255,0.08);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      position:relative;
+      z-index:2;
+    }
+    .progressInner{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,255,255,0), var(--accent2), rgba(255,255,255,0));
+      filter: brightness(1.05);
+      box-shadow: 0 0 20px rgba(255,42,60,0.24);
+    }
+
+    #content.fadeSwap{ animation: fadeSwap 420ms ease; }
+    @keyframes fadeSwap{
+      0%{ opacity:0; transform: translateY(8px); }
+      100%{ opacity:1; transform: translateY(0); }
+    }
+
+    /* OVERALL SPOTLIGHT BAR (shows top 3 overall on division screens) */
+    .spotlight{
+      margin: 0 6px 12px 6px;
+      border-radius: 16px;
+      border: 1px solid rgba(247,201,72,0.25);
+      background: linear-gradient(180deg, rgba(247,201,72,0.10), rgba(0,0,0,0.16));
+      padding: 12px 12px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      overflow:hidden;
+      position:relative;
+      z-index:2;
+    }
+    .spotlight::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-40%;
+      width:60%;
+      height:200%;
+      background: linear-gradient(90deg, transparent, rgba(247,201,72,0.16), transparent);
+      transform: rotate(18deg);
+      animation: sweepGold 4.8s ease-in-out infinite;
+      opacity:0.75;
+      pointer-events:none;
+    }
+    @keyframes sweepGold{
+      0% { transform: translateX(-140%) rotate(18deg); opacity:0; }
+      22%{ opacity:0.75; }
+      55%{ opacity:0.75; }
+      80%{ opacity:0; }
+      100%{ transform: translateX(320%) rotate(18deg); opacity:0; }
+    }
+
+    .spotBadge{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(255,255,255,0.92);
+      white-space:nowrap;
+    }
+    .crown{
+      width:30px;height:30px;border-radius: 12px;
+      display:flex;align-items:center;justify-content:center;
+      border: 1px solid rgba(247,201,72,0.30);
+      background: rgba(0,0,0,0.18);
+      box-shadow: 0 0 24px rgba(247,201,72,0.12);
+      font-size: 16px;
+    }
+    .spotList{
+      display:flex; gap:12px; flex:1; min-width:0;
+    }
+    .spotChip{
+      flex:1;
+      min-width: 0;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+      padding: 10px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .spotChip strong{
+      font-size: 14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .spotChip span{
+      color: var(--muted);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      white-space:nowrap;
+    }
+
+    /* TABLES */
     table{
       width:100%;
       border-collapse: collapse;
       overflow:hidden;
       border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.20);
+      position:relative;
+      z-index:2;
     }
     thead th{
       text-align:left;
-      font-size: 13px;
-      letter-spacing:0.12em;
+      font-size: 12px;
+      letter-spacing:0.14em;
       text-transform: uppercase;
       color: var(--muted);
-      padding: 14px 14px;
+      padding: 12px 12px;
       background: linear-gradient(180deg, rgba(225,29,46,0.18), rgba(0,0,0,0.12));
       border-bottom: 1px solid rgba(225,29,46,0.25);
     }
-
+    tbody td{
+      padding: 12px 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: clamp(15px, 1.45vw, 18px);
+    }
+    tbody tr:nth-child(odd){ background: rgba(255,255,255,0.03); }
     tbody tr{
       opacity:0;
       transform: translateY(8px);
       animation: rowIn 420ms ease forwards;
     }
-    @keyframes rowIn{
-      to { opacity:1; transform: translateY(0); }
-    }
+    @keyframes rowIn{ to { opacity:1; transform: translateY(0); } }
 
-    tbody td{
-      padding: 14px 14px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: clamp(16px, 1.6vw, 20px);
-    }
-    tbody tr:nth-child(odd){
-      background: rgba(255,255,255,0.03);
-    }
+    .pos{ width: 92px; color: var(--accent2); font-weight: 950; }
+    .name{ font-weight: 750; }
+    .score{ width: 110px; text-align:right; font-variant-numeric: tabular-nums; font-weight: 950; }
 
-    .pos{
-      width: 110px;
-      color: var(--accent2);
-      font-weight: 900;
-      letter-spacing:0.2px;
-    }
-    .name{ font-weight: 650; }
-    .score{
-      width: 160px;
-      text-align:right;
-      font-variant-numeric: tabular-nums;
-      font-weight: 900;
-    }
-
-    /* highlight top 3 slightly */
     tbody tr.top3{
       background: linear-gradient(90deg, rgba(255,42,60,0.12), rgba(255,255,255,0.02));
     }
 
-    /* score pulse when updated */
-    .pulse{
-      animation: pulse 450ms ease;
-    }
+    .pulse{ animation: pulse 450ms ease; }
     @keyframes pulse{
       0%{ transform: scale(1); }
-      45%{ transform: scale(1.08); text-shadow: 0 0 18px rgba(255,42,60,0.28); }
+      45%{ transform: scale(1.10); text-shadow: 0 0 18px rgba(255,42,60,0.30); }
       100%{ transform: scale(1); }
     }
 
-    .hint{ margin-top: 12px; color: var(--muted); font-size: 13px; }
+    /* Division 3-column view */
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 0 6px 0 6px;
+      position:relative;
+      z-index:2;
+    }
 
-    .show{display:block;}
-    .hide{display:none;}
+    .panel{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.20);
+      overflow:hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+      position:relative;
+    }
+
+    .panelHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      position:relative;
+    }
+    .panelTitle{
+      font-weight: 950;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(255,255,255,0.86);
+    }
+    .pill{
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.25);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .panelBody{ padding: 10px; }
+
+    /* category accent lines */
+    .cat1 .panelHeader{ border-bottom-color: rgba(250,204,21,0.35); }
+    .cat2 .panelHeader{ border-bottom-color: rgba(59,130,246,0.35); }
+    .cat3 .panelHeader{ border-bottom-color: rgba(255,42,60,0.35); }
+
+    .cat1 .pill{ border-color: rgba(250,204,21,0.35); }
+    .cat2 .pill{ border-color: rgba(59,130,246,0.35); }
+    .cat3 .pill{ border-color: rgba(255,42,60,0.45); color:#fff; }
+
+    /* ====== ACE PANEL STANDS OUT MORE ====== */
+    .acePanel{
+      border-color: rgba(255,42,60,0.55);
+      box-shadow: 0 14px 46px rgba(255,42,60,0.18), 0 14px 46px rgba(0,0,0,0.35);
+      transform: translateY(-2px);
+    }
+    .acePanel::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: 18px;
+      padding:2px;
+      background: linear-gradient(135deg,
+        rgba(255,42,60,0.0),
+        rgba(255,42,60,0.65),
+        rgba(255,255,255,0.10),
+        rgba(255,42,60,0.65),
+        rgba(255,42,60,0.0)
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: aceGlow 2.6s ease-in-out infinite;
+      opacity:0.9;
+      pointer-events:none;
+    }
+    @keyframes aceGlow{
+      0%,100%{ filter: blur(0px); opacity:0.65; }
+      50%{ filter: blur(0.6px); opacity:1; }
+    }
+
+    .aceHeaderLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .aceMark{
+      width:28px;height:28px;border-radius: 10px;
+      display:flex;align-items:center;justify-content:center;
+      border: 1px solid rgba(255,42,60,0.55);
+      background: rgba(0,0,0,0.18);
+      box-shadow: 0 0 22px rgba(255,42,60,0.20);
+      font-size: 15px;
+    }
+    .aceSub{
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* mini tables */
+    .mini thead th{ padding: 10px 10px; font-size: 11px; }
+    .mini tbody td{ padding: 10px 10px; font-size: clamp(14px, 1.25vw, 16px); }
+    .mini .pos{ width: 72px; }
+    .mini .score{ width: 88px; }
+
+    .hint{
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 0 6px;
+      line-height: 1.35;
+      position:relative;
+      z-index:2;
+    }
+    code{ color:#fff; }
+
+    @media (max-width: 980px){
+      .grid3{ grid-template-columns: 1fr; }
+      body{ overflow:auto; }
+    }
+
+    /* small flash when leader changes */
+    .leaderFlash{
+      animation: flash 520ms ease;
+    }
+    @keyframes flash{
+      0%{ box-shadow: 0 0 0 rgba(255,42,60,0.0); }
+      30%{ box-shadow: 0 0 65px rgba(255,42,60,0.22); }
+      100%{ box-shadow: 0 0 0 rgba(255,42,60,0.0); }
+    }
   </style>
 </head>
 
 <body>
   <div class="energy"></div>
-  <div class="grain"></div>
+  <div class="sparks"></div>
 
   <div class="wrap">
-    <div class="card">
+    <div class="card" id="card">
 
       <div class="header">
         <img class="logo" src="acekendologo.png" alt="ACE Kendo Academy logo" />
         <div class="titles">
-          <h1>ACE Kendo Academy Leaderboard</h1>
+          <h1>ACE Kendo Academy Leaderboards</h1>
           <div class="subrow">
-            <div>Rankings</div>
+            <div id="smallTag">Rotating standings display</div>
             <div id="updatedText">Last updated: —</div>
           </div>
         </div>
       </div>
 
-      <div class="intro" id="intro">
-        <div class="slash"></div>
-        <img class="introLogo" src="acekendologo.png" alt="ACE Kendo Academy logo" />
-        <h2>ACE Kendo Academy</h2>
-        <p>Standings will appear shortly</p>
-        <div class="badge"><span class="dot"></span> Live standings</div>
+      <div class="screenTitle" id="screenTitle">
+        <div class="screenLeft">
+          <div class="screenIcon" id="screenIcon">🏆</div>
+          <div class="screenName" id="screenName">OVERALL DOJO LEADERBOARD</div>
+        </div>
+        <div class="screenHint" id="screenHint">Auto-rotating</div>
       </div>
 
-      <div class="board" id="board">
-        <table>
-          <thead>
-            <tr>
-              <th>Position</th>
-              <th>Name</th>
-              <th style="text-align:right;">Score</th>
-            </tr>
-          </thead>
-          <tbody id="rows"></tbody>
-        </table>
-        <div class="hint">
-          Press <b>Space</b> to replay intro. Open DevTools (F12) → Console to call:
-          <code>addScore("Name", 1)</code> / <code>setScore("Name", 10)</code>
-        </div>
+      <div class="progressOuter">
+        <div class="progressInner" id="progressInner"></div>
+      </div>
+
+      <div id="content"></div>
+
+      <div class="hint">
+        Keys: <b>N</b> next, <b>P</b> previous, <b>Space</b> pause/resume.<br/>
+        Console:
+        <code>addPlayer("Name","Teens","Blue-Red",0)</code>,
+        <code>addScore("Name",1)</code>,
+        <code>movePlayer("Name","Adults","ACE")</code>,
+        <code>removePlayer("Name")</code>
       </div>
 
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "ace_leaderboard_v1";
+    // =============================
+    // 0) CONFIG
+    // =============================
+    const DIVISIONS = ["Children & Youth", "Teens", "Adults"];
+    const CATEGORIES = ["Yellow-Purple", "Blue-Red", "ACE"];
+    const TOP_N = 10; 
+    const ROTATE_MS = 9000;
 
-    function saveState() {
-    const data = {
-        players: [...players.entries()], // [["Name", score], ...]
-        updatedAt: Date.now(),
+    // Rotation order: Overall -> Children -> Teens -> Adults -> repeat
+    const VIEWS = [
+      { type:"overall" },
+      { type:"division", division:"Children & Youth" },
+      { type:"division", division:"Teens" },
+      { type:"division", division:"Adults" },
+    ];
+
+    const DIV_META = {
+      "Children & Youth": { icon:"🧒", accent:"var(--kids)",  title:"CHILDREN & YOUTH DIVISION", subtitle:"3 category leaderboards side-by-side" },
+      "Teens":            { icon:"🧑‍🎓", accent:"var(--teens)", title:"TEENS DIVISION",           subtitle:"3 category leaderboards side-by-side" },
+      "Adults":           { icon:"🧑‍💼", accent:"var(--adults)",title:"ADULTS DIVISION",          subtitle:"3 category leaderboards side-by-side" },
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    const CAT_META = {
+      "Yellow-Purple": { label:"Yellow → Purple Belts", className:"cat1" },
+      "Blue-Red":      { label:"Blue → Red Belts",      className:"cat2" },
+      "ACE":           { label:"ACE Division",          className:"cat3" },
+    };
+
+    // =============================
+    // 1) DATA MODEL
+    // =============================
+    const players = new Map([
+      ["Sharif", { score: 0, division: "Adults", category: "ACE" }],
+      ["Daniel Kim",    { score: 0, division: "Adults",  category: "ACE" }],
+      ["Rae Kang",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Ben Yoo",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Chris Hyun",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Kylie Kim",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Sallie Kim",   { score: 0, division: "Adults", category: "Yellow-Purple" }],
+      ["OP Rahul",   { score: 0, division: "Adults", category: "Blue-Red" }],
+      ["Dominic Francesco",   { score: 0, division: "Adults", category: "Blue-Red" }],
+      ["Emma Shaw",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Ian Kim",   { score: 0, division: "Teens", category: "ACE" }],
+      ["Nathan Kim",   { score: 0, division: "Teens", category: "ACE" }],
+      ["Ezekiel Kim",   { score: 0, division: "Teens", category: "ACE" }],
+      ["Dana",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Arie Milne",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Derrick No",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Jaehyun",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Jaesang",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Elias Escobar",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Arthur Shortt",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Connor Peacock",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+    ]);
+
+    const lastScores = new Map([...players.entries()].map(([n, p]) => [n, p.score]));
+
+    // leader tracking for excitement moment
+    let lastLeaderName = null;
+
+    // =============================
+    // 2) PERSISTENCE
+    // =============================
+    const STORAGE_KEY = "ace_leaderboards_v4";
+
+    function saveState(){
+      const data = { players: [...players.entries()], updatedAt: Date.now() };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    function loadState() {
-    try {
+    function loadState(){
+      try{
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return false;
-
         const data = JSON.parse(raw);
         if (!data?.players || !Array.isArray(data.players)) return false;
 
         players.clear();
         lastScores.clear();
 
-        for (const [name, score] of data.players) {
-        players.set(String(name), Number(score) || 0);
-        lastScores.set(String(name), Number(score) || 0);
+        for (const [name, p] of data.players){
+          const safeName = String(name).trim();
+          if (!safeName) continue;
+
+          const score = Number(p?.score) || 0;
+          const division = DIVISIONS.includes(p?.division) ? p.division : DIVISIONS[0];
+          const category = CATEGORIES.includes(p?.category) ? p.category : CATEGORIES[0];
+
+          players.set(safeName, { score, division, category });
+          lastScores.set(safeName, score);
         }
         return true;
-    } catch (e) {
+      }catch(e){
         console.warn("Could not load saved leaderboard:", e);
         return false;
+      }
     }
-    }
-    // =============================
-    // 1) DATA
-    // =============================
-    const players = new Map([
-      ["Sharif", 0],
-      ["Ali", 0],
-      ["Zack", 0],
-      ["Hana", 0],
-    ]);
-
-    // store last scores for pulse animation
-    const lastScores = new Map([...players.entries()]);
 
     // =============================
-    // 2) MANUAL SCORE FUNCTIONS
+    // 3) PLAYER + SCORE FUNCTIONS
     // =============================
-    function setScore(name, score) {
-      players.set(name, Number(score) || 0);
-      render();
+    function addPlayer(name, division = DIVISIONS[0], category = CATEGORIES[0], startingScore = 0){
+      name = String(name).trim();
+      if (!name) return console.warn("Player name cannot be empty.");
+      if (players.has(name)) return console.warn(`Player "${name}" already exists.`);
+      if (!DIVISIONS.includes(division)) return console.warn(`Unknown division "${division}".`);
+      if (!CATEGORIES.includes(category)) return console.warn(`Unknown category "${category}".`);
+
+      const score = Number(startingScore) || 0;
+      players.set(name, { score, division, category });
+      lastScores.set(name, score);
+      saveState(); render();
     }
 
-    function addScore(name, delta) {
-      const cur = players.get(name) || 0;
-      players.set(name, cur + (Number(delta) || 0));
-      render();
+    function removePlayer(name){
+      if (!players.has(name)) return console.warn(`Player "${name}" does not exist.`);
+      players.delete(name);
+      lastScores.delete(name);
+      saveState(); render();
     }
 
-    function addPlayer(name, startingScore = 0) {
-    name = String(name).trim();
-    if (!name) return console.warn("Player name cannot be empty.");
-    if (players.has(name)) return console.warn(`Player "${name}" already exists.`);
+    function renamePlayer(oldName, newName){
+      if (!players.has(oldName)) return console.warn(`Player "${oldName}" does not exist.`);
+      newName = String(newName).trim();
+      if (!newName) return console.warn("New name cannot be empty.");
+      if (players.has(newName)) return console.warn(`Player "${newName}" already exists.`);
 
-    players.set(name, Number(startingScore) || 0);
-    lastScores.set(name, Number(startingScore) || 0);
-    render();
+      const p = players.get(oldName);
+      players.delete(oldName);
+      lastScores.delete(oldName);
+
+      players.set(newName, p);
+      lastScores.set(newName, p.score);
+      saveState(); render();
     }
 
-    function removePlayer(name) {
-    if (!players.has(name)) {
-        return console.warn(`Player "${name}" does not exist.`);
-    }
-    players.delete(name);
-    lastScores.delete(name);
-    render();
-    }
+    function movePlayer(name, division, category){
+      const p = players.get(name);
+      if (!p) return console.warn(`Player "${name}" does not exist.`);
+      if (!DIVISIONS.includes(division)) return console.warn(`Unknown division "${division}".`);
+      if (!CATEGORIES.includes(category)) return console.warn(`Unknown category "${category}".`);
 
-    function renamePlayer(oldName, newName) {
-    if (!players.has(oldName)) {
-        return console.warn(`Player "${oldName}" does not exist.`);
+      p.division = division;
+      p.category = category;
+      players.set(name, p);
+      saveState(); render();
     }
 
-    newName = String(newName).trim();
-    if (!newName) return console.warn("New name cannot be empty.");
-    if (players.has(newName)) {
-        return console.warn(`Player "${newName}" already exists.`);
+    function clearLeaderboard(){
+      players.clear();
+      lastScores.clear();
+      saveState(); render();
     }
 
-    const score = players.get(oldName);
-    players.delete(oldName);
-    lastScores.delete(oldName);
-
-    players.set(newName, score);
-    lastScores.set(newName, score);
-    render();
+    function setScore(name, score){
+      const p = players.get(name);
+      if (!p) return console.warn(`Player "${name}" does not exist.`);
+      p.score = Number(score) || 0;
+      players.set(name, p);
+      saveState(); render();
     }
 
-    function clearLeaderboard() {
-    players.clear();
-    lastScores.clear();
-    render();
+    function addScore(name, delta){
+      const p = players.get(name);
+      if (!p) return console.warn(`Player "${name}" does not exist.`);
+      p.score = (p.score || 0) + (Number(delta) || 0);
+      players.set(name, p);
+      saveState(); render();
     }
 
-
-    function resetAllScores() {
-      for (const k of players.keys()) players.set(k, 0);
-      render();
+    function resetAllScores(){
+      for (const [name, p] of players.entries()){
+        p.score = 0;
+        players.set(name, p);
+        lastScores.set(name, 0);
+      }
+      saveState(); render();
     }
 
+    window.addPlayer = addPlayer;
+    window.removePlayer = removePlayer;
+    window.renamePlayer = renamePlayer;
+    window.movePlayer = movePlayer;
+    window.clearLeaderboard = clearLeaderboard;
     window.setScore = setScore;
     window.addScore = addScore;
     window.resetAllScores = resetAllScores;
 
     // =============================
-    // 3) RENDERING
+    // 4) ROTATION + RENDERING
     // =============================
-    const rowsEl = document.getElementById("rows");
-    const updatedText = document.getElementById("updatedText");
+    let viewIndex = 0;
+    let rotateTimer = null;
+    let isPaused = false;
+    let lastRotateAt = performance.now();
 
-    function render() {
-      const sorted = [...players.entries()].sort((a, b) => {
-        if (b[1] !== a[1]) return b[1] - a[1];
+    const updatedText = document.getElementById("updatedText");
+    const contentEl = document.getElementById("content");
+    const screenIconEl = document.getElementById("screenIcon");
+    const screenNameEl = document.getElementById("screenName");
+    const screenHintEl = document.getElementById("screenHint");
+    const progressInner = document.getElementById("progressInner");
+    const cardEl = document.getElementById("card");
+
+    function currentView(){ return VIEWS[viewIndex % VIEWS.length]; }
+
+    function sortEntries(list){
+      return list.sort((a,b) => {
+        const sa = a[1].score || 0;
+        const sb = b[1].score || 0;
+        if (sb !== sa) return sb - sa;
         return a[0].localeCompare(b[0]);
       });
-
-      rowsEl.innerHTML = "";
-
-      sorted.forEach(([name, score], idx) => {
-        const tr = document.createElement("tr");
-        // stagger the row entrance a bit
-        tr.style.animationDelay = `${idx * 60}ms`;
-
-        if (idx < 3) tr.classList.add("top3");
-
-        const pos = document.createElement("td");
-        pos.className = "pos";
-        pos.textContent = `#${idx + 1}`;
-
-        const nm = document.createElement("td");
-        nm.className = "name";
-        nm.textContent = name;
-
-        const sc = document.createElement("td");
-        sc.className = "score";
-        sc.textContent = score;
-
-        // pulse score if it changed since last render
-        const prev = lastScores.get(name);
-        if (prev !== undefined && prev !== score) {
-          sc.classList.add("pulse");
-        }
-        lastScores.set(name, score);
-
-        tr.appendChild(pos);
-        tr.appendChild(nm);
-        tr.appendChild(sc);
-        rowsEl.appendChild(tr);
-      });
-
-      updatedText.textContent = `Last updated: ${new Date().toLocaleString()}`;
     }
 
-    // =============================
-    // 4) INTRO -> BOARD FLOW
-    // =============================
-    const introEl = document.getElementById("intro");
-    const boardEl = document.getElementById("board");
+    function overallTop3(){
+      const entries = sortEntries([...players.entries()]);
+      return entries.slice(0, 3);
+    }
 
-    function showIntroThenBoard(introMs = 3000) {
-      introEl.classList.add("show");
-      boardEl.classList.add("hide");
+    function makeSpotlightBar(){
+      const top3 = overallTop3();
+      const bar = document.createElement("div");
+      bar.className = "spotlight";
+      bar.innerHTML = `
+        <div class="spotBadge"><div class="crown">👑</div> OVERALL SPOTLIGHT</div>
+        <div class="spotList"></div>
+      `;
 
-      // triggers intro animations
-      requestAnimationFrame(() => introEl.classList.add("show"));
+      const list = bar.querySelector(".spotList");
+      const labels = ["#1", "#2", "#3"];
 
-      setTimeout(() => {
-        introEl.classList.remove("show");
-        boardEl.classList.remove("hide");
-      }, introMs);
+      for (let i=0;i<3;i++){
+        const item = top3[i];
+        const name = item ? item[0] : "—";
+        const score = item ? (item[1].score || 0) : "—";
+        const chip = document.createElement("div");
+        chip.className = "spotChip";
+        chip.innerHTML = `<strong>${labels[i]} ${name}</strong><span>${score}</span>`;
+        list.appendChild(chip);
+      }
+      return bar;
+    }
+
+    function makeTable(entries, mini=false){
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      thead.innerHTML = `
+        <tr>
+          <th>Pos</th>
+          <th>Name</th>
+          <th style="text-align:right;">Score</th>
+        </tr>`;
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+
+      if (entries.length === 0){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td class="pos">—</td><td class="name">No players yet</td><td class="score">—</td>`;
+        tbody.appendChild(tr);
+      } else {
+        entries.forEach(([name, p], idx) => {
+          const tr = document.createElement("tr");
+          tr.style.animationDelay = `${idx * (mini ? 45 : 60)}ms`;
+          if (idx < 3) tr.classList.add("top3");
+
+          const prev = lastScores.get(name);
+          const scoreNow = p.score || 0;
+
+          tr.innerHTML = `
+            <td class="pos">#${idx + 1}</td>
+            <td class="name">${name}</td>
+            <td class="score">${scoreNow}</td>
+          `;
+
+          if (prev !== undefined && prev !== scoreNow){
+            const scoreCell = tr.querySelector(".score");
+            if (scoreCell) scoreCell.classList.add("pulse");
+          }
+          lastScores.set(name, scoreNow);
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      table.appendChild(tbody);
+      if (mini) table.classList.add("mini");
+      return table;
+    }
+
+    function leaderHypeCheck(){
+      // overall leader only (keeps it simple + exciting)
+      const top = overallTop3()[0];
+      const leader = top ? top[0] : null;
+      if (leader && leader !== lastLeaderName){
+        lastLeaderName = leader;
+        cardEl.classList.remove("leaderFlash");
+        void cardEl.offsetWidth;
+        cardEl.classList.add("leaderFlash");
+      }
+    }
+
+    function renderOverall(){
+    screenIconEl.textContent = "🏆";
+    screenNameEl.textContent = "OVERALL DOJO LEADERBOARD";
+    screenHintEl.textContent = "Top 10 overall (everyone)";
+
+    // Top 10 only
+    const entries = sortEntries([...players.entries()]).slice(0, TOP_N);
+
+    contentEl.innerHTML = "";
+    contentEl.appendChild(makeSpotlightBar());
+    contentEl.appendChild(makeTable(entries));
+    }
+
+
+    function renderDivision(division){
+      const meta = DIV_META[division] || { icon:"⚔️", accent:"var(--accent2)", title: division.toUpperCase() };
+
+      screenIconEl.textContent = meta.icon;
+      screenNameEl.textContent = meta.title;
+      screenHintEl.textContent = meta.subtitle || "3 category leaderboards side-by-side";
+
+      contentEl.innerHTML = "";
+
+      // Always show overall spotlight at top (makes “overall” stand out everywhere)
+      contentEl.appendChild(makeSpotlightBar());
+
+      const grid = document.createElement("div");
+      grid.className = "grid3";
+
+      for (const category of CATEGORIES){
+        const catMeta = CAT_META[category];
+
+        const panel = document.createElement("div");
+        panel.className = `panel ${catMeta.className} ${category === "ACE" ? "acePanel" : ""}`;
+
+        const header = document.createElement("div");
+        header.className = "panelHeader";
+
+        if (category === "ACE") {
+          header.innerHTML = `
+            <div class="aceHeaderLeft">
+              <div class="aceMark">⚔️</div>
+              <div>
+                <div class="panelTitle">ACE SPOTLIGHT</div>
+                <div class="aceSub">Advanced / academy division</div>
+              </div>
+            </div>
+            <div class="pill">${catMeta.label}</div>
+          `;
+        } else {
+          header.innerHTML = `
+            <div class="panelTitle">CATEGORY</div>
+            <div class="pill">${catMeta.label}</div>
+          `;
+        }
+
+        const body = document.createElement("div");
+        body.className = "panelBody mini";
+
+        const entries = sortEntries(
+          [...players.entries()].filter(([_, p]) => p.division === division && p.category === category)
+        );
+
+        body.appendChild(makeTable(entries, true));
+
+        panel.appendChild(header);
+        panel.appendChild(body);
+        grid.appendChild(panel);
+      }
+
+      contentEl.appendChild(grid);
+    }
+
+    function render(){
+      contentEl.classList.remove("fadeSwap");
+      void contentEl.offsetWidth;
+      contentEl.classList.add("fadeSwap");
+
+      const v = currentView();
+      if (v.type === "overall") renderOverall();
+      if (v.type === "division") renderDivision(v.division);
+
+      updatedText.textContent = `Last updated: ${new Date().toLocaleString()}`;
+      leaderHypeCheck();
+    }
+
+    function goToView(idx){
+      viewIndex = ((idx % VIEWS.length) + VIEWS.length) % VIEWS.length;
+      lastRotateAt = performance.now();
+      render();
+    }
+    function nextView(){ goToView(viewIndex + 1); }
+    function prevView(){ goToView(viewIndex - 1); }
+
+    function startRotation(){
+      stopRotation();
+      lastRotateAt = performance.now();
+      rotateTimer = setInterval(() => {
+        if (!isPaused) nextView();
+      }, ROTATE_MS);
+    }
+    function stopRotation(){
+      if (rotateTimer) clearInterval(rotateTimer);
+      rotateTimer = null;
+    }
+    function togglePause(){
+      isPaused = !isPaused;
+      screenHintEl.textContent = isPaused ? "Paused (press Space to resume)" : "Auto-rotating";
+      lastRotateAt = performance.now();
+    }
+
+    // Progress animation for next screen
+    function tick(){
+      const now = performance.now();
+      const elapsed = now - lastRotateAt;
+      const pct = isPaused ? 0 : Math.min(100, (elapsed / ROTATE_MS) * 100);
+      progressInner.style.width = pct + "%";
+      requestAnimationFrame(tick);
     }
 
     window.addEventListener("keydown", (e) => {
-      if (e.code === "Space") {
-        e.preventDefault();
-        showIntroThenBoard(2500);
-      }
+      if (e.code === "KeyN") { e.preventDefault(); nextView(); }
+      if (e.code === "KeyP") { e.preventDefault(); prevView(); }
+      if (e.code === "Space") { e.preventDefault(); togglePause(); }
     });
 
+    // =============================
+    // 5) BOOT
+    // =============================
+    loadState();
     render();
-    showIntroThenBoard(3000);
+    startRotation();
+    tick();
   </script>
 </body>
 </html>
