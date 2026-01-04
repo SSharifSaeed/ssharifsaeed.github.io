@@ -539,7 +539,7 @@
         <div class="titles">
           <h1>ACE Kendo Academy Leaderboards</h1>
           <div class="subrow">
-            <div id="smallTag">Rotating standings display</div>
+            <div id="smallTag">standings display</div>
             <div id="updatedText">Last updated: —</div>
           </div>
         </div>
@@ -610,30 +610,39 @@
       ["Ben Yoo",   { score: 0, division: "Adults", category: "ACE" }],
       ["Chris Hyun",   { score: 0, division: "Adults", category: "ACE" }],
       ["Kylie Kim",   { score: 0, division: "Adults", category: "ACE" }],
-      ["Sallie Kim",   { score: 0, division: "Adults", category: "Yellow-Purple" }],
+      ["Emma Shaw",   { score: 0, division: "Adults", category: "ACE" }],
       ["OP Rahul",   { score: 0, division: "Adults", category: "Blue-Red" }],
       ["Dominic Francesco",   { score: 0, division: "Adults", category: "Blue-Red" }],
-      ["Emma Shaw",   { score: 0, division: "Adults", category: "ACE" }],
+      ["Sallie Kim",   { score: 0, division: "Adults", category: "Yellow-Purple" }],
+
       ["Ian Kim",   { score: 0, division: "Teens", category: "ACE" }],
       ["Nathan Kim",   { score: 0, division: "Teens", category: "ACE" }],
-      ["Ezekiel Kim",   { score: 0, division: "Teens", category: "ACE" }],
-      ["Dana",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Joseph Yoon",   { score: 0, division: "Teens", category: "Blue-Red" }],
       ["Arie Milne",   { score: 0, division: "Teens", category: "Blue-Red" }],
       ["Derrick No",   { score: 0, division: "Teens", category: "Blue-Red" }],
       ["Jaehyun",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Jaesang",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Jaesang Lee",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Dominic Peters",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Cooper Simonich",   { score: 0, division: "Teens", category: "Blue-Red" }],
+      ["Dana",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Daniel Jang",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Rook Hamblin",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Luke Um",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+
+      ["Ezekiel Kim",   { score: 0, division: "Children & Youth", category: "ACE" }],
+      ["Bennet Kuan",   { score: 0, division: "Children & Youth", category: "ACE" }],
+      ["Colin Kim",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
+      ["Asher Rahul",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
+      ["Alec Rodriguez",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
+      ["Joshua Kosta",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
       ["Elias Escobar",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
       ["Arthur Shortt",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
       ["Connor Peacock",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Hana",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
     ]);
 
     const lastScores = new Map([...players.entries()].map(([n, p]) => [n, p.score]));
 
-    // leader tracking for excitement moment
+    // leader tracking 
     let lastLeaderName = null;
 
     // =============================
@@ -898,7 +907,7 @@
 
       screenIconEl.textContent = meta.icon;
       screenNameEl.textContent = meta.title;
-      screenHintEl.textContent = meta.subtitle || "3 category leaderboards side-by-side";
+      screenHintEl.textContent = meta.subtitle || "3 Divisions";
 
       contentEl.innerHTML = "";
 
