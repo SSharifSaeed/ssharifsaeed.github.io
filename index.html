@@ -1306,15 +1306,15 @@
     function prevView(){ goToView(viewIndex - 1); }
 
     function startRotation(){
-      stopRotation();
-      lastRotateAt = performance.now();
-      rotateTimer = setInterval(() => {
-        if (!isPaused) nextView();
-      }, ROTATE_MS);
+      //stopRotation();
+      //lastRotateAt = performance.now();
+      //rotateTimer = setInterval(() => {
+      //  if (!isPaused) nextView();
+      //}, ROTATE_MS);
     }
     function stopRotation(){
-      if (rotateTimer) clearInterval(rotateTimer);
-      rotateTimer = null;
+      //if (rotateTimer) clearInterval(rotateTimer);
+      //rotateTimer = null;
     }
     function togglePause(){
       isPaused = !isPaused;
@@ -1324,11 +1324,25 @@
 
     function tick(){
       const now = performance.now();
-      const elapsed = now - lastRotateAt;
-      const pct = isPaused ? 0 : Math.min(100, (elapsed / ROTATE_MS) * 100);
-      progressInner.style.width = pct + "%";
+
+      if (!isPaused){
+        const elapsed = now - lastRotateAt;
+        const pct = Math.min(100, (elapsed / ROTATE_MS) * 100);
+        progressInner.style.width = pct + "%";
+
+        // ✅ When timer hits ROTATE_MS, advance view
+        if (elapsed >= ROTATE_MS){
+          nextView();                 // goToView() resets lastRotateAt
+          // Safety: if nextView didn't reset it for any reason:
+          lastRotateAt = performance.now();
+        }
+      } else {
+        progressInner.style.width = "0%";
+      }
+
       requestAnimationFrame(tick);
     }
+
 
     window.addEventListener("keydown", (e) => {
       if (e.code === "KeyN") { e.preventDefault(); nextView(); }
@@ -1338,8 +1352,9 @@
 
     loadState();
     render();
-    startRotation();
-    tick();
+    startRotation(); // harmless now
+    tick();          // REQUIRED
+
     
 
     // =============================
