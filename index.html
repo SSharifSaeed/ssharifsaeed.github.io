@@ -22,10 +22,12 @@
       --teens:#7c3aed;
       --adults:#22c55e;
 
-      /* Category accents */
-      --cat1:#facc15; /* Yellow-Purple */
-      --cat2:#3b82f6; /* Blue-Red */
-      --cat3:#ff2a3c; /* ACE */
+      /* Rank accents (reusing cat1/2/3 classes) */
+      --cat1:#c0c0c0; /* Silver */
+      --cat2:#f7c948; /* Gold */
+      --cat3:#38bdf8; /* Diamond */
+      --cat4:#ff2a3c; /* Champion */
+
       --gold:#f7c948;
     }
 
@@ -45,9 +47,6 @@
         linear-gradient(180deg, #000, var(--bg));
     }
 
-    /* ========= MORE “HYPE” MOTION ========= */
-
-    /* Slow drifting glow */
     .energy{
       position:fixed; inset:-20%;
       pointer-events:none;
@@ -64,7 +63,6 @@
       to  { transform: translate3d( 2%,  1%, 0) scale(1.07) }
     }
 
-    /* Sparks layer (CSS-only “particles”) */
     .sparks{
       position:fixed;
       inset:0;
@@ -90,25 +88,21 @@
     .wrap{ width:min(1280px, 94vw); padding:24px; position:relative; z-index:1; }
 
     .card{
-    background: linear-gradient(180deg, rgba(17,20,24,0.92), rgba(10,12,15,0.88));
-    border: 1px solid rgba(225,29,46,0.30);
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 18px 70px rgba(0,0,0,0.65);
+      background: linear-gradient(180deg, rgba(17,20,24,0.92), rgba(10,12,15,0.88));
+      border: 1px solid rgba(225,29,46,0.30);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 18px 70px rgba(0,0,0,0.65);
 
-    /* IMPORTANT: always visible even if animations fail */
-    opacity: 1;
-    transform: none;
+      opacity: 1;
+      transform: none;
 
-    /* optional: keep animation for browsers that support it */
-    animation: cardIn 700ms ease;
-    position:relative;
-    overflow:hidden;
+      animation: cardIn 700ms ease;
+      position:relative;
+      overflow:hidden;
     }
-
     @keyframes cardIn{ to { transform: translateY(0); opacity:1; } }
 
-    /* subtle moving highlight on the whole card */
     .card::after{
       content:"";
       position:absolute;
@@ -171,7 +165,6 @@
       font-size:14px;
     }
 
-    /* SCREEN TITLE (big + obvious) */
     .screenTitle{
       display:flex;
       align-items:center;
@@ -227,7 +220,6 @@
       white-space:nowrap;
     }
 
-    /* countdown bar to next screen (adds “event” feel) */
     .progressOuter{
       height: 6px;
       border-radius: 999px;
@@ -252,7 +244,6 @@
       100%{ opacity:1; transform: translateY(0); }
     }
 
-    /* OVERALL SPOTLIGHT BAR (shows top 3 overall on division screens) */
     .spotlight{
       margin: 0 6px 12px 6px;
       border-radius: 16px;
@@ -332,7 +323,6 @@
       white-space:nowrap;
     }
 
-    /* TABLES */
     table{
       width:100%;
       border-collapse: collapse;
@@ -369,11 +359,9 @@
     .pos{ width: 92px; color: var(--accent2); font-weight: 950; }
     .name{ font-weight: 750; }
     .score{ width: 110px; text-align:right; font-variant-numeric: tabular-nums; font-weight: 950; }
-
     tbody tr.top3{
       background: linear-gradient(90deg, rgba(255,42,60,0.12), rgba(255,255,255,0.02));
     }
-
     .pulse{ animation: pulse 450ms ease; }
     @keyframes pulse{
       0%{ transform: scale(1); }
@@ -381,15 +369,13 @@
       100%{ transform: scale(1); }
     }
 
-    /* Division 3-column view */
-    .grid3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 0 6px 0 6px;
-      position:relative;
-      z-index:2;
+    .grid4{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 0 6px 0 6px;
     }
+
 
     .panel{
       border-radius: 16px;
@@ -431,16 +417,46 @@
     }
     .panelBody{ padding: 10px; }
 
-    /* category accent lines */
-    .cat1 .panelHeader{ border-bottom-color: rgba(250,204,21,0.35); }
-    .cat2 .panelHeader{ border-bottom-color: rgba(59,130,246,0.35); }
-    .cat3 .panelHeader{ border-bottom-color: rgba(255,42,60,0.35); }
+    /* ===== Rank accent lines ===== */
 
-    .cat1 .pill{ border-color: rgba(250,204,21,0.35); }
-    .cat2 .pill{ border-color: rgba(59,130,246,0.35); }
-    .cat3 .pill{ border-color: rgba(255,42,60,0.45); color:#fff; }
+    /* SILVER */
+    .cat1 .panelHeader{
+    border-bottom-color: rgba(192,192,192,0.55);
+    }
+    .cat1 .pill{
+    border-color: rgba(192,192,192,0.55);
+    color:#fff;
+    }
 
-    /* ====== ACE PANEL STANDS OUT MORE ====== */
+    /* GOLD */
+    .cat2 .panelHeader{
+    border-bottom-color: rgba(247,201,72,0.55);
+    }
+    .cat2 .pill{
+    border-color: rgba(247,201,72,0.55);
+    color:#fff;
+    }
+
+    /* DIAMOND */
+    .cat3 .panelHeader{
+    border-bottom-color: rgba(56,189,248,0.55);
+    }
+    .cat3 .pill{
+    border-color: rgba(56,189,248,0.55);
+    color:#fff;
+    }
+
+    /* CHAMPION */
+    .cat4 .panelHeader{
+    border-bottom-color: rgba(255,42,60,0.65);
+    }
+    .cat4 .pill{
+    border-color: rgba(255,42,60,0.65);
+    color:#fff;
+    }
+
+
+    /* Champion stands out (reuse acePanel style) */
     .acePanel{
       border-color: rgba(255,42,60,0.55);
       box-shadow: 0 14px 46px rgba(255,42,60,0.18), 0 14px 46px rgba(0,0,0,0.35);
@@ -493,7 +509,6 @@
       color: rgba(255,255,255,0.82);
     }
 
-    /* mini tables */
     .mini thead th{ padding: 10px 10px; font-size: 11px; }
     .mini tbody td{ padding: 10px 10px; font-size: clamp(14px, 1.25vw, 16px); }
     .mini .pos{ width: 72px; }
@@ -515,15 +530,119 @@
       body{ overflow:auto; }
     }
 
-    /* small flash when leader changes */
-    .leaderFlash{
-      animation: flash 520ms ease;
-    }
+    .leaderFlash{ animation: flash 520ms ease; }
     @keyframes flash{
       0%{ box-shadow: 0 0 0 rgba(255,42,60,0.0); }
       30%{ box-shadow: 0 0 65px rgba(255,42,60,0.22); }
       100%{ box-shadow: 0 0 0 rgba(255,42,60,0.0); }
     }
+    /* ===== Duel Modal ===== */
+    #duelModal{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+    }
+    .duelBackdrop{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,0.70);
+      backdrop-filter: blur(4px);
+    }
+    .duelCard{
+      position:absolute;
+      left:50%; top:50%;
+      transform: translate(-50%, -50%);
+      width: min(720px, 92vw);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(17,20,24,0.96), rgba(10,12,15,0.92));
+      box-shadow: 0 24px 90px rgba(0,0,0,0.65);
+      padding: 14px;
+      overflow:hidden;
+    }
+    .duelHr{
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.10);
+    margin: 10px 6px;
+    }
+    .duelTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 6px 6px 12px 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+    .duelTitle{
+      font-weight: 950;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .duelClose{
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.30);
+      color:#fff;
+      border-radius: 12px;
+      width:40px; height:36px;
+      cursor:pointer;
+    }
+    .duelGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 12px 6px;
+    }
+    .duelLabel{
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    #duelA, #duelB{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28);
+      color:#fff;
+      font-weight: 800;
+    }
+    .duelActions{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      padding: 0 6px 12px 6px;
+    }
+    .duelBtn{
+      padding: 12px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.25);
+      color:#fff;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor:pointer;
+    }
+    .duelBtn.win{
+      border-color: rgba(255,42,60,0.35);
+      box-shadow: 0 0 22px rgba(255,42,60,0.12);
+    }
+    .duelBtn.draw{
+      border-color: rgba(247,201,72,0.25);
+    }
+    .duelNote{
+      padding: 0 6px 10px 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 760px){
+      .duelGrid{ grid-template-columns: 1fr; }
+      .duelActions{ grid-template-columns: 1fr; }
+    }
+
   </style>
 </head>
 
@@ -560,104 +679,251 @@
       <div id="content"></div>
 
       <div class="hint">
-        Keys: <b>N</b> next, <b>P</b> previous, <b>Space</b> pause/resume.<br/>
-        Console:
-        <code>addPlayer("Name","Teens","Blue-Red",0)</code>,
-        <code>addScore("Name",1)</code>,
-        <code>movePlayer("Name","Adults","ACE")</code>,
-        <code>removePlayer("Name")</code>
+        Keys: <b>N</b> next (다음), <b>P</b> previous (이전), <b>Space</b> pause (정지) / resume (재개)<b>, <b>M</b> Menu (메뉴)<br/>
       </div>
 
     </div>
   </div>
+  <div id="duelModal" style="display:none;">
+      <div class="duelBackdrop"></div>
+      <div class="duelCard">
+        <div class="duelTop">
+          <div class="duelTitle">⚔️ Start a Duel</div>
+          <button class="duelClose" id="duelCloseBtn">✕</button>
+        </div>
 
+        <div class="duelGrid">
+          <div>
+            <div class="duelLabel">Fighter A</div>
+            <select id="duelA"></select>
+          </div>
+          <div>
+            <div class="duelLabel">Fighter B</div>
+            <select id="duelB"></select>
+          </div>
+        </div>
+
+        <div class="duelActions">
+          <button class="duelBtn win" id="aWinBtn">A Wins</button>
+          <button class="duelBtn draw" id="drawBtn">Draw</button>
+          <button class="duelBtn win" id="bWinBtn">B Wins</button>
+        </div>
+
+        <div class="duelNote" id="duelNote">
+          Points: Win = +5, Loss and Draw = 0
+        <hr class="duelHr"/>
+
+        <div class="duelTitle" style="padding: 6px 6px 10px 6px;">🏅 Competition Points</div>
+
+        <div class="duelGrid">
+        <div>
+            <div class="duelLabel">Student</div>
+            <select id="compPlayer"></select>
+        </div>
+
+        <div>
+            <div class="duelLabel">Competition Type (대회 유형)</div>
+            <select id="compType">
+            <option value="ACE">Ace Kendo Competition</option>
+            <option value="RN">Regional / National Competition</option>
+            </select>
+        </div>
+        </div>
+
+        <div class="duelGrid">
+        <div>
+            <div class="duelLabel">Attendance / Placement (참석 / 순위)</div>
+            <select id="compPlace">
+            <option value="PART">Participation (참가)</option>
+            <option value="1">1st Place</option>
+            <option value="2">2nd Place</option>
+            <option value="3">3rd Place</option>
+            </select>
+        </div>
+
+        <div>
+            <div class="duelLabel">Matches Won (승리한 경기 수)</div>
+            <input id="compWins" type="number" min="0" step="1" value="0"
+                style="width:100%; padding:12px 12px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background:rgba(0,0,0,0.28); color:#fff; font-weight:800;" />
+        </div>
+        </div>
+
+        <div class="duelGrid">
+        <div style="display:flex; align-items:center; gap:10px; padding: 6px;">
+            <input id="compTeam" type="checkbox" />
+            <div style="color: var(--muted); font-size: 13px;">Team Match (Regional/National only)</div>
+        </div>
+        <div></div>
+        </div>
+
+        <div class="duelActions">
+        <button class="duelBtn win" id="compApplyBtn">Apply (점수 적용)</button>
+        <button class="duelBtn draw" id="compResetBtn">Reset (초기화)</button>
+        <button class="duelBtn" id="compPreviewBtn">Preview</button>
+        </div>
+
+        <div class="duelNote" id="compNote">
+        Set competition type, placement, wins, then Apply. No points are deducted.
+        </div>
+      </div>
+    </div>
   <script>
     // =============================
     // 0) CONFIG
     // =============================
-    const DIVISIONS = ["Children & Youth", "Teens", "Adults"];
-    const CATEGORIES = ["Yellow-Purple", "Blue-Red", "ACE"];
-    const TOP_N = 10; 
-    const ROTATE_MS = 9000;
-
-    // Rotation order: Overall -> Children -> Teens -> Adults -> repeat
-    const VIEWS = [
-      { type:"overall" },
-      { type:"division", division:"Children & Youth" },
-      { type:"division", division:"Teens" },
-      { type:"division", division:"Adults" },
+    const DIVISIONS = [
+    "Children & Youth",
+    "Junior Teens",
+    "Senior Teens",
+    "Adults"
     ];
 
+
+    // Ranked game tiers
+    const RANKS = ["Silver", "Gold", "Diamond", "Champion"];
+
+    // Overall shows only top 10
+    const TOP_N = 10;
+    
+    const GOLD_AT = 50;
+    const DIAMOND_AT = 100;
+    const CHAMPION_AT = 250;
+
+
+    const ROTATE_MS = 9000;
+
+    const VIEWS = [
+    { type:"overall" },
+    { type:"division", division:"Children & Youth" },
+    { type:"division", division:"Junior Teens" },
+    { type:"division", division:"Senior Teens" },
+    { type:"division", division:"Adults" },
+    ];
+
+
     const DIV_META = {
-      "Children & Youth": { icon:"🧒", accent:"var(--kids)",  title:"CHILDREN & YOUTH DIVISION", subtitle:"3 category leaderboards side-by-side" },
-      "Teens":            { icon:"🧑‍🎓", accent:"var(--teens)", title:"TEENS DIVISION",           subtitle:"3 category leaderboards side-by-side" },
-      "Adults":           { icon:"🧑‍💼", accent:"var(--adults)",title:"ADULTS DIVISION",          subtitle:"3 category leaderboards side-by-side" },
+    "Children & Youth": {
+        icon:"🧒",
+        accent:"var(--kids)",
+        title:"CHILDREN & YOUTH DIVISION",
+        subtitle:"Ages 6–8"
+    },
+    "Junior Teens": {
+        icon:"🧑‍🎒",
+        accent:"var(--teens)",
+        title:"JUNIOR TEENS DIVISION",
+        subtitle:"Ages 9–12"
+    },
+    "Senior Teens": {
+        icon:"🧑‍🎓",
+        accent:"var(--teens)",
+        title:"SENIOR TEENS DIVISION",
+        subtitle:"Ages 12–15"
+    },
+    "Adults": {
+        icon:"🧑‍💼",
+        accent:"var(--adults)",
+        title:"ADULTS DIVISION",
+        subtitle:"16+"
+    },
     };
 
-    const CAT_META = {
-      "Yellow-Purple": { label:"Yellow → Purple Belts", className:"cat1" },
-      "Blue-Red":      { label:"Blue → Red Belts",      className:"cat2" },
-      "ACE":           { label:"ACE Division",          className:"cat3" },
+
+    // Reuse cat1/cat2/cat3 styling classes
+    const RANK_META = {
+    "Silver":   { label:"Silver Rank",   className:"cat1" },
+    "Gold":     { label:"Gold Rank",     className:"cat2" },
+    "Diamond":  { label:"Diamond Rank",  className:"cat3" },
+    "Champion": { label:"Champion Rank", className:"cat4" },
     };
+
+    // Optional: migration from old categories -> ranks
+    function migrateCategoryToRank(oldCategory){
+      if (oldCategory === "ACE") return "Champion";
+      if (oldCategory === "Blue-Red") return "Gold";
+      if (oldCategory === "Yellow-Purple") return "Bronze";
+      return "Bronze";
+    }
 
     // =============================
-    // 1) DATA MODEL
+    // 1) DATA MODEL (UPDATED: rank instead of category)
     // =============================
     const players = new Map([
-      ["Sharif", { score: 0, division: "Adults", category: "ACE" }],
-      ["Daniel Kim",    { score: 0, division: "Adults",  category: "ACE" }],
-      ["Rae Kang",   { score: 0, division: "Adults", category: "ACE" }],
-      ["Ben Yoo",   { score: 0, division: "Adults", category: "ACE" }],
-      ["Chris Hyun",   { score: 0, division: "Adults", category: "ACE" }],
-      ["Kylie Kim",   { score: 0, division: "Adults", category: "ACE" }],
-      ["Emma Shaw",   { score: 0, division: "Adults", category: "ACE" }],
-      ["OP Rahul",   { score: 0, division: "Adults", category: "Blue-Red" }],
-      ["Dominic Francesco",   { score: 0, division: "Adults", category: "Blue-Red" }],
-      ["Sallie Kim",   { score: 0, division: "Adults", category: "Yellow-Purple" }],
+      ["Sharif", { score: 0, division: "Adults"}],
+      ["Daniel Kim", { score: 0, division: "Adults"}],
+      ["Rae Kang", { score: 0, division: "Adults"}],
+      ["Ben Yoo", { score: 0, division: "Adults"}],
+      ["Chris Hyun", { score: 0, division: "Adults"}],
+      ["Kylie Kim", { score: 0, division: "Adults"}],
+      ["Emma Shaw", { score: 0, division: "Adults"}],
+      ["OP Rahul", { score: 0, division: "Adults"}],
+      ["Dominic Francesco", { score: 0, division: "Adults"}],
+      ["Sallie Kim", { score: 0, division: "Adults"}],
 
-      ["Ian Kim",   { score: 0, division: "Teens", category: "ACE" }],
-      ["Nathan Kim",   { score: 0, division: "Teens", category: "ACE" }],
-      ["Joseph Yoon",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Arie Milne",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Derrick No",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Jaehyun",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Jaesang Lee",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Dominic Peters",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Cooper Simonich",   { score: 0, division: "Teens", category: "Blue-Red" }],
-      ["Dana",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
-      ["Daniel Jang",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
-      ["Rook Hamblin",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
-      ["Luke Um",   { score: 0, division: "Teens", category: "Yellow-Purple" }],
+      ["Ian Kim", { score: 0, division: "Junior Teens"}],
+      ["Nathan Kim", { score: 0, division: "Senior Teens"}],
+      ["Joseph Yoon", { score: 0, division: "Junior Teens"}],
+      ["Arie Milne", { score: 0, division: "Senior Teens"}],
+      ["Derrick No", { score: 0, division: "Junior Teens"}],
+      ["Jaehyun", { score: 0, division: "Senior Teens"}],
+      ["Jaesang Lee", { score: 0, division: "Junior Teens"}],
+      ["Dominic Peters", { score: 0, division: "Senior Teens"}],
+      ["Cooper Simonich", { score: 0, division: "Junior Teens"}],
+      ["Dana", { score: 0, division: "Senior Teens"}],
+      ["Daniel Jang", { score: 0, division: "Junior Teens"}],
+      ["Rook Hamblin", { score: 0, division: "Senior Teens"}],
+      ["Luke Um", { score: 0, division: "Junior Teens"}],
 
-      ["Ezekiel Kim",   { score: 0, division: "Children & Youth", category: "ACE" }],
-      ["Bennet Kuan",   { score: 0, division: "Children & Youth", category: "ACE" }],
-      ["Colin Kim",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
-      ["Asher Rahul",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
-      ["Alec Rodriguez",   { score: 0, division: "Children & Youth", category: "Blue-Red" }],
-      ["Joshua Kosta",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Elias Escobar",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Arthur Shortt",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
-      ["Connor Peacock",   { score: 0, division: "Children & Youth", category: "Yellow-Purple" }],
+      ["Ezekiel Kim", { score: 0, division: "Children & Youth"}],
+      ["Bennet Kuan", { score: 0, division: "Children & Youth"}],
+      ["Colin Kim", { score: 0, division: "Children & Youth"}],
+      ["Asher Rahul", { score: 0, division: "Children & Youth"}],
+      ["Alec Rodriguez", { score: 0, division: "Children & Youth"}],
+      ["Joshua Kosta", { score: 0, division: "Children & Youth"}],
+      ["Elias Escobar", { score: 0, division: "Children & Youth"}],
+      ["Arthur Shortt", { score: 0, division: "Children & Youth"}],
+      ["Connor Peacock", { score: 0, division: "Children & Youth"}],
     ]);
 
     const lastScores = new Map([...players.entries()].map(([n, p]) => [n, p.score]));
-
-    // leader tracking 
     let lastLeaderName = null;
 
     // =============================
     // 2) PERSISTENCE
     // =============================
-    const STORAGE_KEY = "ace_leaderboards_v4";
-
-    function saveState(){
-      const data = { players: [...players.entries()], updatedAt: Date.now() };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const STORAGE_KEY = "ace_leaderboards_v5_ranked";
+    
+    function rankFromScore(score){
+    score = Number(score) || 0;
+    if (score >= CHAMPION_AT) return "Champion";
+    if (score >= DIAMOND_AT) return "Diamond";
+    if (score >= GOLD_AT) return "Gold";
+    return "Silver";
     }
 
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
+
+
+    function saveState(){
+    const cleanPlayers = [...players.entries()].map(([name, p]) => ([
+        name,
+        {
+        score: Number(p?.score) || 0,
+        division: DIVISIONS.includes(p?.division) ? p.division : DIVISIONS[0],
+        rank: rankFromScore(Number(p?.score) || 0),
+        }
+    ]));
+
+    const data = { players: cleanPlayers, updatedAt: Date.now() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+
+   function loadState(){
+    // Try newest key first, then fall back to old key (migration)
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) raw = localStorage.getItem("ace_leaderboards_v4");
+
+    try{
         if (!raw) return false;
         const data = JSON.parse(raw);
         if (!data?.players || !Array.isArray(data.players)) return false;
@@ -666,38 +932,47 @@
         lastScores.clear();
 
         for (const [name, p] of data.players){
-          const safeName = String(name).trim();
-          if (!safeName) continue;
+        const safeName = String(name).trim();
+        if (!safeName) continue;
 
-          const score = Number(p?.score) || 0;
-          const division = DIVISIONS.includes(p?.division) ? p.division : DIVISIONS[0];
-          const category = CATEGORIES.includes(p?.category) ? p.category : CATEGORIES[0];
+        const score = Number(p?.score) || 0;
+        const division = DIVISIONS.includes(p?.division) ? p.division : DIVISIONS[0];
 
-          players.set(safeName, { score, division, category });
-          lastScores.set(safeName, score);
+        // Rank is ALWAYS derived from score thresholds (150/250)
+        const rank = rankFromScore(score);
+
+        players.set(safeName, { score, division, rank });
+        lastScores.set(safeName, score);
         }
+
         return true;
-      }catch(e){
+    }catch(e){
         console.warn("Could not load saved leaderboard:", e);
         return false;
-      }
     }
+    }
+
+
+
+
 
     // =============================
     // 3) PLAYER + SCORE FUNCTIONS
     // =============================
-    function addPlayer(name, division = DIVISIONS[0], category = CATEGORIES[0], startingScore = 0){
+    function addPlayer(name, division = DIVISIONS[0], startingScore = 0){
       name = String(name).trim();
       if (!name) return console.warn("Player name cannot be empty.");
       if (players.has(name)) return console.warn(`Player "${name}" already exists.`);
       if (!DIVISIONS.includes(division)) return console.warn(`Unknown division "${division}".`);
-      if (!CATEGORIES.includes(category)) return console.warn(`Unknown category "${category}".`);
 
       const score = Number(startingScore) || 0;
-      players.set(name, { score, division, category });
+      const rank = rankFromScore(score);
+      players.set(name, { score, division, rank });
+
       lastScores.set(name, score);
       saveState(); render();
     }
+
 
     function removePlayer(name){
       if (!players.has(name)) return console.warn(`Player "${name}" does not exist.`);
@@ -721,17 +996,17 @@
       saveState(); render();
     }
 
-    function movePlayer(name, division, category){
+    function movePlayer(name, division){
       const p = players.get(name);
       if (!p) return console.warn(`Player "${name}" does not exist.`);
       if (!DIVISIONS.includes(division)) return console.warn(`Unknown division "${division}".`);
-      if (!CATEGORIES.includes(category)) return console.warn(`Unknown category "${category}".`);
 
       p.division = division;
-      p.category = category;
+      p.rank = rankFromScore(p.score);
       players.set(name, p);
       saveState(); render();
     }
+
 
     function clearLeaderboard(){
       players.clear();
@@ -739,30 +1014,75 @@
       saveState(); render();
     }
 
+
+
     function setScore(name, score){
       const p = players.get(name);
       if (!p) return console.warn(`Player "${name}" does not exist.`);
+
       p.score = Number(score) || 0;
+      p.rank = rankFromScore(p.score);
+
       players.set(name, p);
       saveState(); render();
     }
+
 
     function addScore(name, delta){
       const p = players.get(name);
       if (!p) return console.warn(`Player "${name}" does not exist.`);
+
       p.score = (p.score || 0) + (Number(delta) || 0);
+      if (p.score < 0) p.score = 0; // optional: never below 0
+      p.rank = rankFromScore(p.score);
+
       players.set(name, p);
       saveState(); render();
     }
 
+
     function resetAllScores(){
       for (const [name, p] of players.entries()){
         p.score = 0;
+        p.rank = rankFromScore(0);
         players.set(name, p);
         lastScores.set(name, 0);
       }
       saveState(); render();
     }
+
+    
+
+    function applyDuelResult(nameA, nameB, result){
+    // result: "A_WIN" | "B_WIN" | "DRAW"
+    const pA = players.get(nameA);
+    const pB = players.get(nameB);
+
+    if (!pA || !pB) return console.warn("Invalid duel players.");
+    if (nameA === nameB) return console.warn("Pick two different players.");
+
+    const WIN_POINTS = 5;
+
+    if (result === "A_WIN"){
+        pA.score = (pA.score || 0) + WIN_POINTS;
+    }
+    else if (result === "B_WIN"){
+        pB.score = (pB.score || 0) + WIN_POINTS;
+    }
+    // DRAW → no points for either
+
+    // Ranks always derived from score
+    pA.rank = rankFromScore(pA.score);
+    pB.rank = rankFromScore(pB.score);
+
+    players.set(nameA, pA);
+    players.set(nameB, pB);
+
+    saveState();
+    render();
+    }
+
+
 
     window.addPlayer = addPlayer;
     window.removePlayer = removePlayer;
@@ -800,8 +1120,13 @@
       });
     }
 
+    function nonZeroEntries(list){
+    return list.filter(([_, p]) => (Number(p?.score) || 0) > 0);
+    }
+
+
     function overallTop3(){
-      const entries = sortEntries([...players.entries()]);
+      const entries = sortEntries(nonZeroEntries([...players.entries()]));
       return entries.slice(0, 3);
     }
 
@@ -877,7 +1202,6 @@
     }
 
     function leaderHypeCheck(){
-      // overall leader only (keeps it simple + exciting)
       const top = overallTop3()[0];
       const leader = top ? top[0] : null;
       if (leader && leader !== lastLeaderName){
@@ -891,10 +1215,9 @@
     function renderOverall(){
     screenIconEl.textContent = "🏆";
     screenNameEl.textContent = "OVERALL DOJO LEADERBOARD";
-    screenHintEl.textContent = "Top 10 overall (everyone)";
+    screenHintEl.textContent = `Top ${TOP_N} overall`;
 
-    // Top 10 only
-    const entries = sortEntries([...players.entries()]).slice(0, TOP_N);
+    const entries = sortEntries(nonZeroEntries([...players.entries()])).slice(0, TOP_N);
 
     contentEl.innerHTML = "";
     contentEl.appendChild(makeSpotlightBar());
@@ -907,40 +1230,38 @@
 
       screenIconEl.textContent = meta.icon;
       screenNameEl.textContent = meta.title;
-      screenHintEl.textContent = meta.subtitle || "3 Divisions";
+      screenHintEl.textContent = meta.subtitle || "Silver • Gold • Diamond • Champion";
 
       contentEl.innerHTML = "";
-
-      // Always show overall spotlight at top (makes “overall” stand out everywhere)
       contentEl.appendChild(makeSpotlightBar());
 
       const grid = document.createElement("div");
-      grid.className = "grid3";
+      grid.className = "grid4";
 
-      for (const category of CATEGORIES){
-        const catMeta = CAT_META[category];
+      for (const rank of RANKS){
+        const rMeta = RANK_META[rank];
 
         const panel = document.createElement("div");
-        panel.className = `panel ${catMeta.className} ${category === "ACE" ? "acePanel" : ""}`;
+        panel.className = `panel ${rMeta.className} ${rank === "Champion" ? "acePanel" : ""}`;
 
         const header = document.createElement("div");
         header.className = "panelHeader";
 
-        if (category === "ACE") {
+        if (rank === "Champion") {
           header.innerHTML = `
             <div class="aceHeaderLeft">
-              <div class="aceMark">⚔️</div>
+              <div class="aceMark">🏆</div>
               <div>
-                <div class="panelTitle">ACE SPOTLIGHT</div>
-                <div class="aceSub">Advanced / academy division</div>
+                <div class="panelTitle">CHAMPION TIER</div>
+                <div class="aceSub">Top ranked fighters</div>
               </div>
             </div>
-            <div class="pill">${catMeta.label}</div>
+            <div class="pill">${rMeta.label}</div>
           `;
         } else {
           header.innerHTML = `
-            <div class="panelTitle">CATEGORY</div>
-            <div class="pill">${catMeta.label}</div>
+            <div class="panelTitle">RANK</div>
+            <div class="pill">${rMeta.label}</div>
           `;
         }
 
@@ -948,8 +1269,10 @@
         body.className = "panelBody mini";
 
         const entries = sortEntries(
-          [...players.entries()].filter(([_, p]) => p.division === division && p.category === category)
+        nonZeroEntries([...players.entries()])
+            .filter(([_, p]) => p.division === division && p.rank === rank)
         );
+
 
         body.appendChild(makeTable(entries, true));
 
@@ -999,7 +1322,6 @@
       lastRotateAt = performance.now();
     }
 
-    // Progress animation for next screen
     function tick(){
       const now = performance.now();
       const elapsed = now - lastRotateAt;
@@ -1014,13 +1336,254 @@
       if (e.code === "Space") { e.preventDefault(); togglePause(); }
     });
 
-    // =============================
-    // 5) BOOT
-    // =============================
     loadState();
     render();
     startRotation();
     tick();
+    
+
+    // =============================
+    // 6) DUEL MENU (press M)
+    // =============================
+    const duelModal = document.getElementById("duelModal");
+    const duelA = document.getElementById("duelA");
+    const duelB = document.getElementById("duelB");
+    const duelCloseBtn = document.getElementById("duelCloseBtn");
+
+    const aWinBtn = document.getElementById("aWinBtn");
+    const bWinBtn = document.getElementById("bWinBtn");
+    const drawBtn = document.getElementById("drawBtn");
+
+    function isDuelOpen(){
+      return duelModal.style.display !== "none";
+    }
+
+    function openDuel(){
+    // build dropdown options sorted by name
+    const names = [...players.keys()].sort((a,b)=>a.localeCompare(b));
+
+    const optionsHTML = names.map(n => `<option value="${n}">${n}</option>`).join("");
+
+    duelA.innerHTML = optionsHTML;
+    duelB.innerHTML = optionsHTML;
+
+    // ✅ Competition dropdown (make sure you have <select id="compPlayer"></select>)
+    if (typeof compPlayer !== "undefined" && compPlayer){
+        compPlayer.innerHTML = optionsHTML;
+    }
+
+    // default selections if possible
+    if (names.length >= 2){
+        duelA.value = names[0];
+        duelB.value = names[1];
+        if (compPlayer) compPlayer.value = names[0];
+    } else if (names.length === 1){
+        duelA.value = names[0];
+        duelB.value = names[0];
+        if (compPlayer) compPlayer.value = names[0];
+    }
+
+    // ✅ Reset competition inputs + preview text (only if you added that function)
+    if (typeof resetCompetitionForm === "function"){
+        resetCompetitionForm();
+    } else if (typeof updateCompUI === "function"){
+        updateCompUI();
+    }
+
+    duelModal.style.display = "block";
+    }
+
+
+    function closeDuel(){
+      duelModal.style.display = "none";
+    }
+
+    function submitDuel(result){
+      const a = duelA.value;
+      const b = duelB.value;
+      applyDuelResult(a, b, result);
+      closeDuel();
+    }
+
+    duelCloseBtn.addEventListener("click", closeDuel);
+    // close if you click the dark background
+    duelModal.addEventListener("click", (e) => {
+      if (e.target.classList.contains("duelBackdrop")) closeDuel();
+    });
+
+    aWinBtn.addEventListener("click", () => submitDuel("A_WIN"));
+    bWinBtn.addEventListener("click", () => submitDuel("B_WIN"));
+    drawBtn.addEventListener("click", () => submitDuel("DRAW"));
+
+    // Extend your existing keydown handler:
+    window.addEventListener("keydown", (e) => {
+      // If duel is open, Esc closes it
+      if (isDuelOpen() && e.code === "Escape"){
+        e.preventDefault();
+        closeDuel();
+        return;
+      }
+
+      if (e.code === "KeyM"){
+        e.preventDefault();
+        if (isDuelOpen()) closeDuel();
+        else openDuel();
+      }
+    });
+    
+    // =============================
+    // COMPETITION POINTS (No deductions)
+    // =============================
+    const compPlayer = document.getElementById("compPlayer");
+    const compType = document.getElementById("compType");
+    const compPlace = document.getElementById("compPlace");
+    const compWins = document.getElementById("compWins");
+    const compTeam = document.getElementById("compTeam");
+
+    const compApplyBtn = document.getElementById("compApplyBtn");
+    const compResetBtn = document.getElementById("compResetBtn");
+    const compPreviewBtn = document.getElementById("compPreviewBtn");
+    const compNote = document.getElementById("compNote");
+
+    function pointsForCompetition({ type, place, wins, isTeam }){
+    wins = Math.max(0, Number(wins) || 0);
+
+    // Participation is ALWAYS 5 points
+    const PARTICIPATION_POINTS = 5;
+
+    // =============================
+    // ACE KENDO COMPETITION
+    // =============================
+    // Participation = 5
+    // 1st = 15
+    // 2nd = 10
+    // 3rd = 5
+    // Each match win = 1
+    if (type === "ACE"){
+        let base = 0;
+
+        if (place === "PART") base = PARTICIPATION_POINTS;
+        if (place === "1") base = 15;
+        if (place === "2") base = 10;
+        if (place === "3") base = 5;
+
+        const winPts = wins * 1;
+        return { base, winPts, total: base + winPts };
+    }
+
+    // =============================
+    // REGIONAL / NATIONAL
+    // =============================
+    // Participation = 5 (individual or team)
+    // INDIVIDUAL:
+    //   1st = 20
+    //   2nd = 15
+    //   3rd = 10
+    //   Each match win = 1
+    //
+    // TEAM:
+    //   1st = 30
+    //   2nd = 20
+    //   3rd = 10
+    //   Each match win = 2
+    if (type === "RN"){
+        let base = 0;
+
+        if (place === "PART") base = PARTICIPATION_POINTS;
+        else if (isTeam){
+        if (place === "1") base = 30;
+        if (place === "2") base = 20;
+        if (place === "3") base = 10;
+        } else {
+        if (place === "1") base = 20;
+        if (place === "2") base = 15;
+        if (place === "3") base = 10;
+        }
+
+        const winPts = wins * (isTeam ? 2 : 1);
+        return { base, winPts, total: base + winPts };
+    }
+
+    return { base: 0, winPts: 0, total: 0 };
+    }
+
+
+    function updateCompUI(){
+    // Only show team option for RN
+    const isRN = compType.value === "RN";
+    compTeam.disabled = !isRN;
+    if (!isRN) compTeam.checked = false;
+
+    const pts = pointsForCompetition({
+        type: compType.value,
+        place: compPlace.value,
+        wins: compWins.value,
+        isTeam: compTeam.checked
+    });
+
+    const labelType = (compType.value === "ACE") ? "ACE" : "REG/NAT";
+    const labelTeam = (compType.value === "RN" && compTeam.checked) ? " • TEAM" : "";
+    const placementText =
+        compPlace.value === "PART" ? "Participation" :
+        compPlace.value === "1" ? "1st" :
+        compPlace.value === "2" ? "2nd" : "3rd";
+
+    compNote.textContent =
+        `${labelType}${labelTeam}: ${placementText} base ${pts.base} + wins ${pts.winPts} = TOTAL +${pts.total} points`;
+    }
+
+    function applyCompetitionPoints(){
+    const name = compPlayer.value;
+    const p = players.get(name);
+    if (!p) return console.warn("Invalid competition player.");
+
+    const pts = pointsForCompetition({
+        type: compType.value,
+        place: compPlace.value,
+        wins: compWins.value,
+        isTeam: compTeam.checked
+    });
+
+    const add = pts.total;
+    if (add <= 0){
+        // nothing to apply
+        updateCompUI();
+        return;
+    }
+
+    p.score = (p.score || 0) + add;
+    p.rank = rankFromScore(p.score);
+
+    players.set(name, p);
+    saveState();
+    render();
+
+    compNote.textContent = `✅ Added +${add} points to ${name}. New score: ${p.score}`;
+    }
+
+    function resetCompetitionForm(){
+    compType.value = "ACE";
+    compPlace.value = "PART";
+    compWins.value = 0;
+    compTeam.checked = false;
+    updateCompUI();
+    }
+
+    // Hook up events
+    ["change", "input"].forEach(evt => {
+    compType.addEventListener(evt, updateCompUI);
+    compPlace.addEventListener(evt, updateCompUI);
+    compWins.addEventListener(evt, updateCompUI);
+    compTeam.addEventListener(evt, updateCompUI);
+    });
+
+    compApplyBtn.addEventListener("click", applyCompetitionPoints);
+    compResetBtn.addEventListener("click", resetCompetitionForm);
+    compPreviewBtn.addEventListener("click", updateCompUI);
+
+
+
+
   </script>
 </body>
 </html>
